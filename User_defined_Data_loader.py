@@ -4,14 +4,14 @@ import pandas as pd
 class DataLoader:
 
     # constructor class
-    def __init__(self,path,sht_name=0):
+    def __init__(self,path,sht_name=0,sep=None):
         self.path=path
         self.sheet = sht_name
-
+        self.separator = sep
     # function to handle csv files
     def csv_file(self):
         try:
-            data = pd.read_csv(self.path)
+            data = pd.read_csv(self.path,sep=self.separator)
             return data
         except Exception as e:
             raise ValueError(f"While reading the csv file we are getting Error as : {e}")
