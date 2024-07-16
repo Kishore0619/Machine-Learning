@@ -4,22 +4,21 @@ import pandas as pd
 class DataLoader:
 
     # constructor class
-    def __init__(self,path,sht_name=0):
+    def __init__(self,path):
         self.path=path
-        self.sheet = sht_name
-
+        
     # function to handle csv files
-    def csv_file(self):
+    def csv_file(self,sep,encode):
         try:
-            data = pd.read_csv(self.path)
+            data = pd.read_csv(self.path,sep=sep,encoding=encode)
             return data
         except Exception as e:
             raise ValueError(f"While reading the csv file we are getting Error as : {e}")
 
     # function to handle Excel files
-    def excel_file(self):
+    def excel_file(self,sheetnum):
         try:
-            data = pd.read_excel(self.path,sheet_name=self.sheet)
+            data = pd.read_excel(self.path,sheet_name=sheetnum)
             print(f"Data is from the sheet {self.sheet}, if you want other sheet data pass the sheet number along with the file-path!")
             return data
         except Exception as x:
@@ -45,13 +44,16 @@ class DataLoader:
             
 
     # funtion the to any type of files
-    def read_data(self):
+    def read_data(self,sheet_name=0,sep=None,encoding = 'utf-8'):
+        self.sheet_name = sheet_name
+        self.sep = sep
+        self.encoding = encoding
         try:
             if self.path.endswith(".csv") or self.path.endswith(".txt"):
-                data_frame = self.csv_file()
+                data_frame = self.csv_file(self.sep,self.encoding)
                 return data_frame
             elif self.path.endswith(".html"):
-                data_frame = self.read_html(self.path)
+                data_frame = self.read_html(self.sheetname)
                 return data_frame
             elif self.path.endswith(".xlsx"):
                 data_frame = self.excel_file()
