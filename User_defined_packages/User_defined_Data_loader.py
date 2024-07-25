@@ -26,8 +26,11 @@ class DataLoader:
             data = pd.read_excel(self.path,sheet_name=sheetnum)
             print(f"Data is from the sheet {sheetnum}, if you want other sheet data pass the sheet number in Sheet name!")
             return data
-        except Exception as x:
-            raise ValueError(f"While Reading the file there was an error: {x}")
+        except Exception:
+            try:
+                data = pd.read_excel(self.path,engine='openpyxl')
+            except Exception as e:
+                raise ValueError(f"Whilw reading the file there was an error: {e}")
             
 
     # function to handle html files
